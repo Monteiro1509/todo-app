@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+enum TodoStatus {
+  PENDENTE
+  ARQUIVDA
+}
+
+model Todo {
+  id          Int        @id @default(autoincrement())
+  description String
+  status      TodoStatus @default(PENDENTE)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("todos")
+}
